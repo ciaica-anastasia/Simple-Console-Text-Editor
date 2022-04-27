@@ -1,6 +1,7 @@
 # Simple-Console-Text-Editor
 
 This is a simple console text editor made using Tkinter package.
+
 Features via menu:
 
   File operations:
