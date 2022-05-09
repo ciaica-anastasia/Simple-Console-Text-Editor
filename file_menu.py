@@ -5,7 +5,7 @@ from tkinter.messagebox import *
 
 class File():
 
-    def newFile(self):
+    def newFile(self, button=""):
         answer = askyesno(title="Save File", message="Would you like to save this file?")
         if answer:
             self.saveFile()
@@ -13,7 +13,7 @@ class File():
         self.filename = "Untitled"
         self.root.title(self.filename + " - Text Editor")
 
-    def saveFile(self):
+    def saveFile(self, button=""):
         try:
             if self.filename == "Untitled":
                 path = asksaveasfilename(defaultextension='.txt')
@@ -26,7 +26,7 @@ class File():
         except:
             self.saveAs()
 
-    def saveAs(self):
+    def saveAs(self, button=""):
         if self.filename == "Untitled":
             self.saveFile()
             return "break"
@@ -40,14 +40,14 @@ class File():
         except:
             showerror(title="Oops!", message="Unable to save file...")
 
-    def openFile(self):
+    def openFile(self, button=""):
         f = askopenfile(mode='r')
         self.filename = f.name
         t = f.read()
         self.text.delete(0.0, END)
         self.text.insert(0.0, t)
 
-    def quit(self):
+    def quit(self, button=""):
         entry = askyesno(title="Quit", message="Are you sure you want to quit?")
         if entry == True:
             self.root.destroy()
@@ -59,19 +59,22 @@ class File():
 
 
 def main(root, text, menubar):
+    root.bind("")
     filemenu = Menu(menubar)
     objFile = File(text, root)
-    filemenu.add_command(label="New", command=objFile.newFile)
-    filemenu.add_command(label="Open", command=objFile.openFile)
+    filemenu.add_command(label="New", command=objFile.newFile, accelerator="Ctrl+N")
+    filemenu.add_command(label="Open", command=objFile.openFile, accelerator="Ctrl+O")
     filemenu.add_command(label="Save", command=objFile.saveFile, accelerator="Ctrl+S")
-    filemenu.add_command(label="Save As...", command=objFile.saveAs)
+    filemenu.add_command(label="Save As...", command=objFile.saveAs, accelerator="Ctrl+A")
     filemenu.add_separator()
     filemenu.add_command(label="Quit", command=objFile.quit, accelerator="Ctrl+Q")
     menubar.add_cascade(label="File", menu=filemenu)
     root.config(menu=menubar)
 
     root.bind_all("<Control-s>", objFile.saveFile)
+    root.bind_all("<Control-a>", objFile.saveAs)
     root.bind_all("<Control-q>", objFile.quit)
+    root.bind_all("<Control-o>", objFile.openFile)
 
 
 if __name__ == "__main__":

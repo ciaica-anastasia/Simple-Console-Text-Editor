@@ -71,6 +71,19 @@ class Format():
         except:
             pass
 
+    def highlightText(self):
+        try:
+            current_tags = self.text.tag_names("sel.first")
+            if "highlighted" in current_tags:
+                self.text.tag_remove("highlighted", "sel.first", "sel.last")
+            else:
+                (triple, hexstr) = askcolor()
+                if hexstr:
+                    self.text.tag_add("highlighted", "sel.first", "sel.last")
+                    self.text.tag_configure('highlighted', background=hexstr)
+        except:
+            pass
+
     def addDate(self):
         full_date = time.localtime()
         day = str(full_date.tm_mday)
@@ -94,7 +107,7 @@ def main(root, text, menubar):
 
     for option in fontoptions:
         fsubmenu.add_command(label=option, command=lambda option=option: font.configure(family=option))
-    for value in range(1, 31):
+    for value in range(4, 31):
         ssubmenu.add_command(label=str(value), command=lambda value=value: font.configure(size=value))
 
     formatMenu.add_command(label="Change Overall Background", command=objFormat.changeBg)
@@ -105,6 +118,7 @@ def main(root, text, menubar):
     formatMenu.add_command(label="Italic", command=objFormat.italic, accelerator="Ctrl+I")
     formatMenu.add_command(label="Underline", command=objFormat.underline, accelerator="Ctrl+U")
     formatMenu.add_command(label="Overstrike", command=objFormat.overstrike, accelerator="Ctrl+T")
+    formatMenu.add_command(label="Mark selected text", command=objFormat.highlightText, accelerator="Ctrl+M")
     formatMenu.add_command(label="Add Date", command=objFormat.addDate)
     menubar.add_cascade(label="Format", menu=formatMenu)
 

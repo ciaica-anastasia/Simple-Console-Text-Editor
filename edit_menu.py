@@ -1,5 +1,7 @@
 from tkinter.simpledialog import *
 
+import replace_window
+
 
 class Edit():
 
@@ -42,10 +44,16 @@ class Edit():
                 idx = lastidx
             self.text.tag_config('found', foreground='white', background='blue')
 
+    def replace(self, *args):
+        rpw = replace_window._ReplaceWindow(self.root, self.text)
+        rpw.create_main_window()
+        pass
+
     def __init__(self, text, root):
         self.clipboard = None
         self.text = text
         self.rightClick = Menu(root)
+        self.root = root
 
 
 def main(root, text, menubar):
@@ -58,6 +66,7 @@ def main(root, text, menubar):
     editmenu.add_command(label="Undo", command=objEdit.undo, accelerator="Ctrl+Z")
     editmenu.add_command(label="Redo", command=objEdit.redo, accelerator="Ctrl+Y")
     editmenu.add_command(label="Find", command=objEdit.find, accelerator="Ctrl+F")
+    editmenu.add_command(label="Replace", command=objEdit.replace, accelerator="Ctrl+R")
     editmenu.add_separator()
     editmenu.add_command(label="Select All", command=objEdit.selectAll, accelerator="Ctrl+A")
     menubar.add_cascade(label="Edit", menu=editmenu)
@@ -66,6 +75,7 @@ def main(root, text, menubar):
     root.bind_all("<Control-y>", objEdit.redo)
     root.bind_all("<Control-f>", objEdit.find)
     root.bind_all("<Control-a>", objEdit.selectAll)
+    root.bind_all("<Control-r>", objEdit.replace)
 
     objEdit.rightClick.add_command(label="Copy", command=objEdit.copy)
     objEdit.rightClick.add_command(label="Cut", command=objEdit.cut)
