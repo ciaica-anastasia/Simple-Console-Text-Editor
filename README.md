@@ -18,6 +18,7 @@ Features via menu:
   - undo
   - redo
   - find word
+  - replace word
 
   Format operations:
   - change overall background
@@ -28,6 +29,7 @@ Features via menu:
   - italic (+ via hot key)
   - underline (+ via hot key)
   - overstrike (+ via hot key)
+  - highlight selected text (+ via hot key)
   - add date to the text
 
   Help operations:
